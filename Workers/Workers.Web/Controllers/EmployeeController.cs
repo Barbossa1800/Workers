@@ -9,7 +9,7 @@ namespace Workers.Web.Controllers
     [Route("employee")]
     public class EmployeeController : Controller
     {
-        private readonly WorkerDbContext _db;
+        private readonly WorkerDbContext _db;   
         public EmployeeController(WorkerDbContext db)
         {
             _db = db;
