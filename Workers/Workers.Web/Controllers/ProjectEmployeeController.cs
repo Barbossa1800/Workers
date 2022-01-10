@@ -49,7 +49,7 @@ namespace Workers.Web.Controllers
             return View(pe);
         }
 
-        [HttpPost("edit")]
+        [HttpPost("edit")] //for create project emp likely this
         public async Task<IActionResult> EditProjEmp(ProjectEmployee projectEmployee)
         {
             var peFromDb = await _db.ProjectEmployees.SingleOrDefaultAsync(x => x.Id == projectEmployee.Id);
