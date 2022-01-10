@@ -22,9 +22,32 @@ namespace Workers.Web.Controllers
         [Route("all")] //second variant of route
         public async Task<IActionResult> GetAll()
         {
-            var projectemployee = await _db.ProjectEmployees.Include(x => x.Employee).Include(x => x.Project).Include(x => x.Position).ToListAsync();
+            var projectemployee = await _db.ProjectEmployees
+                .Include(x => x.Employee)
+                .Include(x => x.Project)
+                .Include(x => x.Position)
+                .ToListAsync();
             return View(projectemployee);
         }
+
+        #region CreateProjectEmployee //maybe not necssary?
+        [HttpGet("create")]
+        public IActionResult Create()
+        {
+            return View();
+        } 
+
+        [HttpPost("create")]
+        public async Task<IActionResult> Create(ProjectEmployee projectEmployee)
+        {
+            Project project = new Project();
+            
+            _db.ProjectEmployees.Include(x => x.ProjectId == project.Id);
+            await _db.ProjectEmployees.AddAsync(projectEmployee);
+            await _db.SaveChangesAsync();
+            return LocalRedirect("~/project-employee/all");
+        }
+        #endregion
 
         [HttpGet("{id}")]
         public async Task<IActionResult> GetDetails(int id)

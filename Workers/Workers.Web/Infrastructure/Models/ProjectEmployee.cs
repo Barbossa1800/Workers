@@ -15,5 +15,7 @@ namespace Workers.Web.Infrastructure.Models
 
         public int PositionId { get; set; }
         public Position Position { get; set; }
+
+
     }
 }
