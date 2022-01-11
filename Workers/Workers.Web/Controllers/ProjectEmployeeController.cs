@@ -30,7 +30,6 @@ namespace Workers.Web.Controllers
             return View(projectemployee);
         }
 
-        #region CreateProjectEmployee //maybe not necssary?
         [HttpGet("create")]
         public async Task<IActionResult> Create()
         {
@@ -57,12 +56,15 @@ namespace Workers.Web.Controllers
             await _db.SaveChangesAsync();
             return LocalRedirect("~/project-employee/all");
         }
-        #endregion
 
         [HttpGet("{id}")]
         public async Task<IActionResult> GetDetails(int id)
         {
             var pe = await _db.ProjectEmployees.Include(x => x.Employee).Include(x => x.Project).Include(x => x.Position).SingleOrDefaultAsync(x => x.Id == id);
+            if(pe == null)
+            {
+                return LocalRedirect("~/project-employee/all");
+            }
             return View(pe);
         }
 
