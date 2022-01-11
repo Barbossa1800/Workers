@@ -60,7 +60,11 @@ namespace Workers.Web.Controllers
         [HttpGet("{id}")]
         public async Task<IActionResult> GetDetails(int id)
         {
-            var pe = await _db.ProjectEmployees.Include(x => x.Employee).Include(x => x.Project).Include(x => x.Position).SingleOrDefaultAsync(x => x.Id == id);
+            var pe = await _db.ProjectEmployees
+                .Include(x => x.Employee)
+                .Include(x => x.Project) 
+                .Include(x => x.Position)
+                .SingleOrDefaultAsync(x => x.Id == id);
             if(pe == null)
             {
                 return LocalRedirect("~/project-employee/all");
@@ -85,7 +89,6 @@ namespace Workers.Web.Controllers
         }
 
         [HttpPost("edit")] //for create project emp likely this
-        //WHY THIS METOD ????
         public async Task<IActionResult> EditProjEmp(ProjectEmployee projectEmployee)
         {
             var peFromDb = await _db.ProjectEmployees.SingleOrDefaultAsync(x => x.Id == projectEmployee.Id);
@@ -101,6 +104,29 @@ namespace Workers.Web.Controllers
             return LocalRedirect(Url.Action("GetDetails", "ProjectEmployee", new { id = peFromDb.Id }));
         }
 
+        [HttpGet("delete/{id}")]
+        public async Task<IActionResult> Delete(int id)
+        {
+            var projectEmployeeFromDb = await _db.ProjectEmployees
+                .Include(x => x.Employee)
+                .Include(x => x.Project)
+                .Include(x => x.Position)
+                .SingleOrDefaultAsync(x => x.Id == id);
+            if (projectEmployeeFromDb is null)
+                return LocalRedirect(Url.Action("GetAll", "ProjectEmployee"));
+            return View(projectEmployeeFromDb);
 
+        }
+
+        [HttpPost("delete")]
+        public async Task<IActionResult> DeleteConfirmed(ProjectEmployee projectEmployee)
+        {
+            var employeeFromDelete = await _db.ProjectEmployees.SingleOrDefaultAsync(x => x.Id == projectEmployee.Id);
+            if (employeeFromDelete is null)
+                return LocalRedirect(Url.Action("GetAll", "ProjectEmployee"));
+            _db.Remove(employeeFromDelete);
+            _db.SaveChanges();
+            return LocalRedirect("~/project-employee/all");
+        }
     }
 }

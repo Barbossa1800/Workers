@@ -46,9 +46,9 @@
                         @Html.ActionLink(item.Position.Name, "GetDetails", "Position", new { id = item.PositionId })
                     </td>
                     <td>
-                        @Html.ActionLink("Edit", "Edit", new {  id=item.Id }) |
-                        @Html.ActionLink("Details", "GetDetails", "ProjectEmployee", new {  id=item.Id }) |
-                        @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+                        @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
+                        @Html.ActionLink("Details", "GetDetails", "ProjectEmployee", new { id = item.Id }) |
+                        @Html.ActionLink("Delete", "Delete", new { id = item.Id })
                     </td>
                 </tr>
             }
