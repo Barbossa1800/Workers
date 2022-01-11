@@ -85,6 +85,7 @@ namespace Workers.Web.Controllers
         }
 
         [HttpPost("edit")] //for create project emp likely this
+        //WHY THIS METOD ????
         public async Task<IActionResult> EditProjEmp(ProjectEmployee projectEmployee)
         {
             var peFromDb = await _db.ProjectEmployees.SingleOrDefaultAsync(x => x.Id == projectEmployee.Id);
@@ -99,5 +100,7 @@ namespace Workers.Web.Controllers
 
             return LocalRedirect(Url.Action("GetDetails", "ProjectEmployee", new { id = peFromDb.Id }));
         }
+
+
     }
 }
