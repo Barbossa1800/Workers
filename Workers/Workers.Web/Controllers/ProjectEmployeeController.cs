@@ -32,17 +32,27 @@ namespace Workers.Web.Controllers
 
         #region CreateProjectEmployee //maybe not necssary?
         [HttpGet("create")]
-        public IActionResult Create()
+        public async Task<IActionResult> Create()
         {
+            ViewBag.Projects = await _db.Projects.Select(x => new Project
+            {
+                Id = x.Id,
+                Name = x.Name
+            }).ToListAsync();
+            ViewBag.Employees = await _db.Employees.Select(x => new Employee
+            {
+                Id = x.Id,
+                FirstName = x.FirstName,
+                LastName = x.LastName
+            }).ToListAsync();
+            ViewBag.Positions = await _db.Positions.ToListAsync();
             return View();
         } 
 
         [HttpPost("create")]
         public async Task<IActionResult> Create(ProjectEmployee projectEmployee)
         {
-            Project project = new Project();
-            
-            _db.ProjectEmployees.Include(x => x.ProjectId == project.Id);
+
             await _db.ProjectEmployees.AddAsync(projectEmployee);
             await _db.SaveChangesAsync();
             return LocalRedirect("~/project-employee/all");
