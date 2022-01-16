@@ -19,8 +19,15 @@ namespace Workers.Web.Controllers
         [HttpGet("all")]
         public  async Task<IActionResult> GetAll()
         {
-            var tasks = await _db.Tasks.Include(x => x.Project).Include(x =>x.InfoStatus).ToListAsync();
+            var tasks = await _db.Tasks.Include(x => x.Project).Include(x =>x.InfoStatuses).ToListAsync();
             return View(tasks);
+        }
+
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetDetails(int id)
+        {
+            var task = await _db.Tasks.Include(x => x.InfoStatuses).ThenInclude(x => x.StatusTask).ToListAsync();
+            return View(task);
         }
 
         [HttpGet("create")]
@@ -38,5 +45,7 @@ namespace Workers.Web.Controllers
             await _db.SaveChangesAsync();
             return LocalRedirect("~/task/all");
         }
+
+
     }
 }

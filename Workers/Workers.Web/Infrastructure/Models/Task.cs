@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace Workers.Web.Infrastructure.Models
@@ -15,7 +16,8 @@ namespace Workers.Web.Infrastructure.Models
         public int ProjectId { get; set; }
         public Project Project { get; set; }
 
-        public int InfoStatusId { get; set; }
-        public InfoStatus InfoStatus { get; set; }
+
+               
+        public List<InfoStatus> InfoStatuses { get; set; }
     }
 }
