@@ -24,9 +24,9 @@ namespace Workers.Web.Infrastructure.Context
 
         public DbSet<Task> Tasks { get; set; }
 
-        public DbSet<InfoStatus> InfoStatuses { get; set; }
+        public DbSet<TaskStatus> TaskStatuses { get; set; }
 
-        public DbSet<StatusTask> StatusTasks { get; set; }
+        public DbSet<Status> Statuses { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

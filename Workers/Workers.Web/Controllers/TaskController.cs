@@ -17,16 +17,16 @@ namespace Workers.Web.Controllers
         }
 
         [HttpGet("all")]
-        public  async Task<IActionResult> GetAll()
+        public async Task<IActionResult> GetAll()
         {
-            var tasks = await _db.Tasks.Include(x => x.Project).Include(x =>x.InfoStatuses).ToListAsync();
+            var tasks = await _db.Tasks.Include(x => x.Project).Include(x => x.TaskStatuses).ToListAsync();
             return View(tasks);
         }
 
         [HttpGet("{id}")]
         public async Task<IActionResult> GetDetails(int id)
         {
-            var task = await _db.Tasks.Include(x => x.InfoStatuses).ThenInclude(x => x.StatusTask).ToListAsync();
+            var task = await _db.Tasks.Include(x => x.TaskStatuses).ThenInclude(x => x.StatusTask).ToListAsync();
             return View(task);
         }
 
@@ -34,7 +34,7 @@ namespace Workers.Web.Controllers
         public async Task<IActionResult> Create()
         {
             ViewBag.Projects = await _db.Projects.ToListAsync();
-            ViewBag.StatusTasks = await _db.StatusTasks.ToListAsync();
+            ViewBag.StatusTasks = await _db.Statuses.ToListAsync();
             return View();
         }
 

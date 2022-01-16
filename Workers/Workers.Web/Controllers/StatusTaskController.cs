@@ -21,8 +21,8 @@ namespace Workers.Web.Controllers
         [HttpGet("all")]
         public async Task<IActionResult> GetAll()
         {
-            var statusTask = await _db.StatusTasks.ToListAsync();
-            return View(statusTask);
+            var statusTasks = await _db.Statuses.ToListAsync();
+            return View(statusTasks);
         }
 
         [HttpGet("create")]
@@ -32,7 +32,7 @@ namespace Workers.Web.Controllers
         }
 
         [HttpPost("create")]
-        public async Task<IActionResult> Create(StatusTask statusTask)
+        public async Task<IActionResult> Create(Status statusTask)
         {
             await _db.AddAsync(statusTask);
             await _db.SaveChangesAsync();

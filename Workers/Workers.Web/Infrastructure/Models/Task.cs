@@ -15,9 +15,6 @@ namespace Workers.Web.Infrastructure.Models
 
         public int ProjectId { get; set; }
         public Project Project { get; set; }
-
-
-               
-        public List<InfoStatus> InfoStatuses { get; set; }
+        public List<TaskStatus> TaskStatuses { get; set; }
     }
 }

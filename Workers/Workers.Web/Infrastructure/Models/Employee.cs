@@ -15,6 +15,6 @@ namespace Workers.Web.Infrastructure.Models
         public string Login { get; set; }
         public string Email { get; set; }
         public List<ProjectEmployee> ProjectEmployees { get; set; }
-        public List<InfoStatus> InfoStatuses { get; set; }
+        public List<TaskStatus> InfoStatuses { get; set; }
     }
 }

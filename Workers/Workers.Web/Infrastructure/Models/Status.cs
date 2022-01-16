@@ -3,11 +3,11 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Workers.Web.Infrastructure.Models
 {
-    public class StatusTask
+    public class Status
     {
         [Key]
         public int Id { get; set; }
-        public string Status { get; set; }
-        public List<InfoStatus> InfoStatuses { get; set; }
+        public string StatusName { get; set; }
+        public List<TaskStatus> InfoStatuses { get; set; }
     }
 }
