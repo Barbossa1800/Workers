@@ -38,5 +38,44 @@ namespace Workers.Web.Controllers
             await _db.SaveChangesAsync();
             return LocalRedirect("~/position/all");
         }
+
+        [HttpGet("edit/{id}")]
+        public async Task<IActionResult> Edit(int id)
+        {
+            var position = await _db.Positions.AsNoTracking().SingleOrDefaultAsync(x =>x.Id == id);
+            return View(position);
+        }
+
+        [HttpPost("edit")]
+        public async Task<IActionResult> EditPosition(Position position)
+        {
+            var positionFromDb = await _db.Positions.AsNoTracking().SingleOrDefaultAsync(x => x.Id == position.Id);
+            if(position == null)
+                return LocalRedirect("~/position/all");
+             _db.Update(positionFromDb);
+            await _db.SaveChangesAsync();
+            return LocalRedirect("~/position/all");
+        }
+
+        [HttpPost("delete/{id}")]
+        public async Task<IActionResult> Delete(int id)
+        {
+            var positionFromDb = await _db.Positions.SingleOrDefaultAsync(x => x.Id == id);
+            if (positionFromDb == null)
+                return LocalRedirect("~/position/all"); 
+            return View();
+        }
+
+        [HttpPost("delete")]
+        public async Task<IActionResult> DeletePosition(Position position)
+        {
+            var positionFromDb = await _db.Positions.SingleOrDefaultAsync(x => x.Id == position.Id);
+            if (positionFromDb == null)
+                return LocalRedirect("~/position/all");
+             _db.Remove(positionFromDb);
+            await _db.SaveChangesAsync();
+            return LocalRedirect("~/position/all");
+        }
+
     }
 }
