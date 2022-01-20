@@ -52,18 +52,19 @@ namespace Workers.Web.Controllers
             var positionFromDb = await _db.Positions.AsNoTracking().SingleOrDefaultAsync(x => x.Id == position.Id);
             if(position == null)
                 return LocalRedirect("~/position/all");
+            positionFromDb.Name = position.Name;
              _db.Update(positionFromDb);
             await _db.SaveChangesAsync();
             return LocalRedirect("~/position/all");
         }
 
-        [HttpPost("delete/{id}")]
+        [HttpGet("delete/{id}")]
         public async Task<IActionResult> Delete(int id)
         {
             var positionFromDb = await _db.Positions.SingleOrDefaultAsync(x => x.Id == id);
             if (positionFromDb == null)
                 return LocalRedirect("~/position/all"); 
-            return View();
+            return View(positionFromDb);
         }
 
         [HttpPost("delete")]

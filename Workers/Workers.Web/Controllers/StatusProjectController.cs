@@ -52,6 +52,8 @@ namespace Workers.Web.Controllers
             var statusProjectFromDb = await _db.StatusProjects.SingleOrDefaultAsync(x => x.Id == statusProject.Id);
             if(statusProjectFromDb == null)
                 return LocalRedirect("~/status-project/all");
+
+            statusProjectFromDb.Status = statusProject.Status;
             _db.Update(statusProjectFromDb);
             await _db.SaveChangesAsync();
             return LocalRedirect("~/status-project/all");
@@ -63,7 +65,7 @@ namespace Workers.Web.Controllers
             var statusProjectFromDb = await _db.StatusProjects.SingleOrDefaultAsync(x => x.Id == id);
             if (statusProjectFromDb == null)
                 return LocalRedirect("~/status-project/all");
-            return View();
+            return View(statusProjectFromDb);
         }
 
         [HttpPost("delete")]

@@ -74,6 +74,10 @@ namespace Workers.Web.Controllers
             }
 
             projectFromDb.StatusProjectId = project.StatusProjectId;
+            projectFromDb.Name = project.Name;
+            projectFromDb.StartAt = project.StartAt;
+            projectFromDb.EndAt = project.EndAt;
+            projectFromDb.StatusProjectId = project.StatusProjectId;
 
             _db.Projects.Update(projectFromDb);
             await _db.SaveChangesAsync();
