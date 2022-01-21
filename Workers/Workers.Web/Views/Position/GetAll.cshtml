@@ -1,4 +1,4 @@
-﻿@model IEnumerable<Workers.Web.Infrastructure.Models.Status>
+﻿@model IEnumerable<Workers.Web.Infrastructure.Models.Position>
 
 @{
     ViewData["Title"] = "GetAll";
@@ -9,13 +9,14 @@
 <p>
     <a asp-action="Create">Create New</a>
 </p>
+
 @if (Model.Any())
 {
     <table class="table">
         <thead>
             <tr>
                 <th>
-                    @Html.DisplayNameFor(model => model.StatusName)
+                    @Html.DisplayNameFor(model => model.Name)
                 </th>
                 <th></th>
             </tr>
@@ -25,19 +26,19 @@
             {
                 <tr>
                     <td>
-                        @Html.DisplayFor(modelItem => item.StatusName)
+                        @Html.DisplayFor(modelItem => item.Name)
                     </td>
                     <td>
                         <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                        <a asp-action="GetDetails" asp-route-id="@item.Id">Details</a> |
                         <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
                     </td>
                 </tr>
             }
         </tbody>
     </table>
+
 }
 else
 {
-    <p>No items</p>
+    <p>No positions!</p>
 }

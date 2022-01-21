@@ -51,7 +51,6 @@ namespace Workers.Web.Controllers
         [HttpPost("create")]
         public async Task<IActionResult> Create(ProjectEmployee projectEmployee)
         {
-
             await _db.ProjectEmployees.AddAsync(projectEmployee);
             await _db.SaveChangesAsync();
             return LocalRedirect("~/project-employee/all");

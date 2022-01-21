@@ -9,7 +9,7 @@ namespace Workers.Web.Controllers
     [Route("employee")]
     public class EmployeeController : Controller
     {
-        private readonly WorkerDbContext _db;   
+        private readonly WorkerDbContext _db;
         public EmployeeController(WorkerDbContext db)
         {
             _db = db;
@@ -18,7 +18,7 @@ namespace Workers.Web.Controllers
         [HttpGet("all")]
         public async Task<IActionResult> GetAll()
         {
-            var employees = await _db.Employees.ToListAsync(); 
+            var employees = await _db.Employees.ToListAsync();
             return View(employees);
         }
 
@@ -61,17 +61,33 @@ namespace Workers.Web.Controllers
         public async Task<IActionResult> GetDetails(int id)
         {
             var employee = await _db.Employees.AsNoTracking().SingleOrDefaultAsync(x => x.Id == id);
-            if(employee == null)
+            if (employee == null)
                 return LocalRedirect("~/employee/all");
             return View(employee);
         }
 
-        public IActionResult GetProjectEmployees()
+        [HttpGet("delete/{id}")]
+        public async Task<IActionResult> Delete(int id)
         {
-            var es = _db.ProjectEmployees
-                .Include(x => x.Employee).Include(x => x.Position)
-                .FirstOrDefaultAsync(x => x.Id == 1);
-            return Ok();
+            var employee = await _db.Employees.SingleOrDefaultAsync(x => x.Id == id);
+            if (employee == null)
+                return LocalRedirect("~/employee/all");
+            return View(employee);
         }
+
+        [HttpPost("delete")]
+        public async Task<IActionResult> DeleteEmployee(Employee employee)
+        {
+            var employeeForDelete = await _db.Employees.SingleOrDefaultAsync(x => x.Id == employee.Id);
+            if (employee == null)
+            {
+                return LocalRedirect("~/employee/all");
+            }
+            _db.Remove(employeeForDelete);
+            await _db.SaveChangesAsync();
+            return LocalRedirect("~/employee/all");
+
+        }
+
     }
 }

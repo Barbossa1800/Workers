@@ -1,4 +1,4 @@
-﻿@model Workers.Web.Infrastructure.Models.Project
+﻿@model Workers.Web.Infrastructure.Models.TaskStatus
 
 @{
     ViewData["Title"] = "GetDetails";
@@ -7,32 +7,32 @@
 <h1>GetDetails</h1>
 
 <div>
-    <h4>Project</h4>
+    <h4>TaskStatus</h4>
     <hr />
     <dl class="row">
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Name)
+            @Html.DisplayNameFor(model => model.StatusTask)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Name)
+            @Html.DisplayFor(model => model.StatusTask.StatusName)
         </dd>
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.StartAt)
+            @Html.DisplayNameFor(model => model.Task)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.StartAt)
+            @Html.DisplayFor(model => model.Task.Name)
         </dd>
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.EndAt)
+            @Html.DisplayNameFor(model => model.DateEdit)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.EndAt)
+            @Html.DisplayFor(model => model.DateEdit)
         </dd>
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.StatusProject)
+            @Html.DisplayNameFor(model => model.Employee)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.StatusProject.Status) 
+            @Html.DisplayFor(model => model.Employee.FullName)
         </dd>
     </dl>
 </div>
