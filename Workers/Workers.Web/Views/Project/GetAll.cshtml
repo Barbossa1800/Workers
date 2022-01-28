@@ -9,46 +9,54 @@
 <p>
     <a asp-action="Create">Create New</a>
 </p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Name)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.StartAt)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.EndAt)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.StatusProject)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model)
-        {
+@if (Model.Any())
+{
+    <table class="table">
+        <thead>
             <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Name)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.StartAt)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.EndAt)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.StatusProject.Status)
-                </td>
-                <td>
-                    @Html.ActionLink("Details", "GetDetails", "Project", new { id = item.Id }) |
-                    @Html.ActionLink("Edit", "Edit", "Project", new { id = item.Id }) |
-                    @Html.ActionLink("Delete", "Delete", "Project", new { id = item.Id })
-                </td>
+                <th>
+                    @Html.DisplayNameFor(model => model.Name)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.StartAt)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.EndAt)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.StatusProject)
+                </th>
+                <th></th>
             </tr>
-        }
-    </tbody>
-</table>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Name)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.StartAt)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.EndAt)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.StatusProject.Status)
+                    </td>
+                    <td>
+                        @Html.ActionLink("Details", "GetDetails", "Project", new { id = item.Id }) |
+                        @Html.ActionLink("Edit", "Edit", "Project", new { id = item.Id }) |
+                        @Html.ActionLink("Delete", "Delete", "Project", new { id = item.Id })
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+}
+else
+{
+    <h2>No projects!</h2>
+}
