@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using System.Threading.Tasks;
 using Workers.Web.Infrastructure.Context;
 using Workers.Web.Infrastructure.Models;
+using Extensions.Password;
 
 namespace Workers.Web.Controllers
 {
@@ -31,6 +32,7 @@ namespace Workers.Web.Controllers
         [HttpPost("create")]
         public async Task<IActionResult> Create(Employee employee)
         {
+            employee.PasswordHash = employee.PasswordHash.GeneratePasswordHash(); //генерация хеша пароля. VerifyPasswordHash - проверка
             await _db.Employees.AddAsync(employee);
             await _db.SaveChangesAsync();
             return LocalRedirect("~/employee/all");

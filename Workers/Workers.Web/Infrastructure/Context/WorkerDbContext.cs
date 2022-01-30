@@ -28,6 +28,9 @@ namespace Workers.Web.Infrastructure.Context
 
         public DbSet<Status> Statuses { get; set; }
 
+        /*new DbSet (authorization)*/
+        public DbSet<EmployeeRole> EmployeeRoles { get; set; }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             //modelBuilder.Entity<Position>().Property(x => x.Id).HasColumnName("PositionId");
