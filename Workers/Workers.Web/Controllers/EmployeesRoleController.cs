@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using System.Threading.Tasks;
 using Workers.Web.Infrastructure.Context;
+using Workers.Web.Infrastructure.Models;
 
 namespace Workers.Web.Controllers
 {
@@ -19,6 +20,20 @@ namespace Workers.Web.Controllers
         {
             var employeeRole = await _db.EmployeeRoles.ToListAsync();
             return View();
+        }
+
+        [HttpGet("create")]
+        public IActionResult Create()
+        {
+            return View();
+        }
+
+        [HttpPost("create")]
+        public async Task<IActionResult> Create(EmployeeRole employeeRole)
+        {
+            await _db.EmployeeRoles.AddAsync(employeeRole);
+            await _db.SaveChangesAsync();
+            return LocalRedirect("~/employee-role/all");
         }
 
     }
