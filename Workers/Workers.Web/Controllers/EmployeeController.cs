@@ -53,7 +53,7 @@ namespace Workers.Web.Controllers
                 return LocalRedirect("~/employee/all");
             userFromDb.FirstName = employee.FirstName;
             userFromDb.LastName = employee.LastName;
-            userFromDb.Login = employee.Login;
+           // userFromDb.Login = employee.Login;
             userFromDb.Email = employee.Email;
             await _db.SaveChangesAsync();
             return LocalRedirect("~/employee/all");

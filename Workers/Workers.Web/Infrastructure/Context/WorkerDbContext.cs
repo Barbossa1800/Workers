@@ -38,5 +38,7 @@ namespace Workers.Web.Infrastructure.Context
             //modelBuilder.Entity<Position>().Property(x => x.Id).HasColumnName("PositionId");
             //modelBuilder.Entity<>
         }
+
+        public DbSet<Workers.Web.Infrastructure.Models.EmployeeRegister> EmployeeRegister { get; set; }
     }
 }
