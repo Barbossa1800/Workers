@@ -52,9 +52,17 @@ namespace Workers.Web
 
             app.UseEndpoints(endpoints =>
             {
-                endpoints.MapControllerRoute(
-                    name: "default",
-                    pattern: "{controller=Home}/{action=Index}/{id?}");
+                //endpoints.MapControllers(); //don`t use deffault map. But this mehtod, for use any Route.
+                endpoints.MapDefaultControllerRoute(); //this method or use endpoints.MapControllerRoute(...) or any base route (write route)
+
+                //endpoints.MapControllerRoute(
+                //    name: "default",
+                //    pattern: "{controller=Home}/{action=Index}/{id?}");
+
+                //endpoints.MapControllerRoute(
+                //    name: "admin",
+                //    pattern: "{controller=EmployeesRole}/{action=GetAll}/{id?}"
+                //    );
             });
         }
     }
