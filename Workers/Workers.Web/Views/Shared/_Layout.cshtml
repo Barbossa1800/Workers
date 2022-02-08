@@ -45,13 +45,15 @@
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-controller="EmployeesRole" asp-action="GetAll">EmployeesRole</a>
                         </li>
-                        @if (User.Identity.IsAuthenticated)
-                        {
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="Admin" asp-controller="Admin" asp-action="GetAll">Admin</a>
-                            </li>
-                        }
-
+                        @*@if (User.HasClaim(x => x.Value == "email"))
+                            {
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark" asp-area="Admin" asp-controller="Admin" asp-action="GetAll">Admin</a>
+                                </li>
+                            }*@
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="Admin" asp-controller="Admin" asp-action="GetAll">Admin</a>
+                        </li>
                         @if (!User.Identity.IsAuthenticated)
                         {
                             <li class="nav-item">

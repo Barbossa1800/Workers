@@ -27,16 +27,21 @@ namespace Workers.Web
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
                 .AddCookie(options =>
                 {
-                    options.LoginPath = new Microsoft.AspNetCore.Http.PathString("/Account/Register");
+                    options.LoginPath = new Microsoft.AspNetCore.Http.PathString("/Account/Login");
+                    options.AccessDeniedPath = new Microsoft.AspNetCore.Http.PathString("/Account/Login");
                 });
 
             //services.AddTransient<IAuthorizationHandler, AgeHandler>();
 
             services.AddAuthorization(opts => {
-                opts.AddPolicy("ForEmail", policy =>
-                {
-                    policy.RequireClaim(ClaimTypes.Email, "test21@gmail.com", "nikita@gmail.com" );
-                });
+                //opts.AddPolicy("ForEmail", policy =>
+                //{
+                //    policy.RequireClaim(ClaimTypes.Email, "test21@gmail.com", "nikita@gmail.com");
+                //});
+                //opts.AddPolicy("ForEmail", policy =>
+                //{
+                //    policy.RequireClaim("email", "test21@gmail.com", "nikita@gmail.com");
+                //});
 
             });
 

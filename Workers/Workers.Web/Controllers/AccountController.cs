@@ -7,6 +7,9 @@ using Workers.Web.Infrastructure.Models;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Extensions.Password;
+using Workers.Web.Infrastructure.Constants;
+using System.Linq;
 
 namespace Workers.Web.Controllers
 {
@@ -37,11 +40,20 @@ namespace Workers.Web.Controllers
                     user = new Employee
                     {
                         Email = model.Email,
-                        PasswordHash = model.PasswordHash,
+                        PasswordHash = model.PasswordHash.GeneratePasswordHash(),
                         FirstName = model.FirstName,
                         LastName = model.LastName
                     };
                     _db.Employees.Add(user);
+                    await _db.SaveChangesAsync();
+
+                    var empRole = new EmployeeRole
+                    {
+                        EmployeeId = user.Id,
+                        RoleId = (await _db.Roles.AsNoTracking().Select(c => new Role { Id = c.Id }).FirstOrDefaultAsync(x => x.Name == CustomRole.Employee)).Id
+                    };
+
+                    await _db.EmployeeRoles.AddAsync(empRole);
                     await _db.SaveChangesAsync();
 
                     await Authenticate(user);
@@ -66,14 +78,20 @@ namespace Workers.Web.Controllers
         {
             if (ModelState.IsValid)
             {
-                Employee employee = await _db.Employees.FirstOrDefaultAsync(u => u.Email == model.Email && u.PasswordHash == model.PasswordHash);
+                Employee employee = await _db.Employees.FirstOrDefaultAsync(u => u.Email == model.Email);
                 if (employee != null)
                 {
+                    if (!model.PasswordHash.VerifyPasswordHash(employee.PasswordHash))
+                    {
+                        ModelState.AddModelError("", "Некорректный логин и(или) пароль");
+                        return View(model);
+                    }
+
                     await Authenticate(employee); // аутентификация
 
                     return RedirectToAction("Index", "Home");
                 }
-                ModelState.AddModelError("", "Некорректные логин и(или) пароль");
+                ModelState.AddModelError("", "Пользователя не существует");
             }
             return View(model);
         }
@@ -89,10 +107,13 @@ namespace Workers.Web.Controllers
 
         private async System.Threading.Tasks.Task Authenticate(Employee employee)
         {
+            var userRole = await _db.EmployeeRoles.AsNoTracking().Include(x => x.Role).FirstOrDefaultAsync(s => s.EmployeeId == employee.Id);
             var claims = new List<System.Security.Claims.Claim>
             {
                 new System.Security.Claims.Claim(ClaimsIdentity.DefaultNameClaimType, employee.Email), //зачем этот клеим? базовый для аутентификации??
-                new System.Security.Claims.Claim(ClaimTypes.Email, employee.Email)
+                //new System.Security.Claims.Claim(ClaimTypes.Email, employee.Email),
+                new System.Security.Claims.Claim(ClaimsIdentity.DefaultRoleClaimType, userRole.Role.Name) //связь на роль нужна...
+                //new System.Security.Claims.Claim("email", employee.Email)
             };
             ClaimsIdentity id = new ClaimsIdentity(claims, "ApplicationCookie", ClaimsIdentity.DefaultNameClaimType,
                         ClaimsIdentity.DefaultRoleClaimType);
