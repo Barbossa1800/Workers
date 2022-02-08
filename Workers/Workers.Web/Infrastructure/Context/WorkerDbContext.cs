@@ -39,6 +39,6 @@ namespace Workers.Web.Infrastructure.Context
             //modelBuilder.Entity<>
         }
 
-        public DbSet<Workers.Web.Infrastructure.Models.EmployeeRegister> EmployeeRegister { get; set; }
+        //public DbSet<Workers.Web.Infrastructure.Models.EmployeeRegister> EmployeeRegister { get; set; } //зачем?
     }
 }
