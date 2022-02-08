@@ -23,7 +23,8 @@ namespace Workers.Web.Areas.Admin
         }
 
         [HttpGet("all")]
-        [Authorize(Policy = "ForEmail")]
+        //[Authorize(Policy = "ForEmail")]
+        [Authorize(Roles = "Admin, user")]
         public async Task<IActionResult> GetAll()
         {
             var roles = await _db.Roles.ToListAsync();
