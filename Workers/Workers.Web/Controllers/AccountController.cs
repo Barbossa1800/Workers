@@ -50,7 +50,9 @@ namespace Workers.Web.Controllers
                     var empRole = new EmployeeRole
                     {
                         EmployeeId = user.Id,
-                        RoleId = (await _db.Roles.AsNoTracking().Select(c => new Role { Id = c.Id }).FirstOrDefaultAsync(x => x.Name == CustomRole.Employee)).Id
+                        RoleId = (await _db.Roles.AsNoTracking().FirstOrDefaultAsync(x => x.Name == CustomRole.Employee)).Id
+                        //RoleId = (await _db.Roles.AsNoTracking().Select(c => new Role { Id = c.Id }).FirstOrDefaultAsync(x => x.Name == CustomRole.Employee)).Id
+
                     };
 
                     await _db.EmployeeRoles.AddAsync(empRole);
