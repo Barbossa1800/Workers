@@ -40,6 +40,6 @@
     <form asp-action="DeleteEmployee">
         <input type="hidden" asp-for="Id" />
         <input type="submit" value="Delete" class="btn btn-danger" /> |
-        <a asp-action="GetAll">Back to List</a>
+        <a asp-action="GetAll"   asp-controller="Admin">Back to List</a>
     </form>
 </div>

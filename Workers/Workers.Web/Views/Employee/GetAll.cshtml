@@ -2,14 +2,18 @@
 
 @{
     ViewData["Title"] = "GetAll";
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 <h1>GetAll</h1>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
+@*@if (User.IsInRole("Admin"))
+    {
 
+    }*@
+<p>
+    <a asp-area="Admin" asp-controller="Employee" asp-action="Create">Create New</a>
+</p>
 @if (Model == null || Model.Count() == 0)
 {
     <h2>No employees</h2>
@@ -20,6 +24,7 @@ else
         <thead>
             <tr>
                 <th>
+
                     @Html.DisplayNameFor(model => model.Id)
                 </th>
                 <th>
@@ -29,8 +34,8 @@ else
                     @Html.DisplayNameFor(model => model.LastName)
                 </th>
                 @*<th>
-                    @Html.DisplayNameFor(model => model.Login)
-                </th>*@
+                        @Html.DisplayNameFor(model => model.Login)
+                    </th>*@
                 <th>
                     @Html.DisplayNameFor(model => model.Email)
                 </th>
@@ -52,16 +57,20 @@ else
                         @Html.DisplayFor(modelItem => item.LastName)
                     </td>
                     @*<td>
-                        @Html.DisplayFor(modelItem => item.Login)
-                    </td>*@
+                            @Html.DisplayFor(modelItem => item.Login)
+                        </td>*@
                     <td>
                         @Html.DisplayFor(modelItem => item.Email)
                     </td>
-                    <td>
-                        @Html.ActionLink("Edit", "Edit", new { Id = item.Id }) |
-                        @Html.ActionLink("Details", "GetDetails", new { id = item.Id }) |
-                        @Html.ActionLink("Delete", "Delete", new { id = item.Id })
-                    </td>
+                    @if (User.IsInRole("Admin"))
+                    {
+                        <td>
+                            @Html.ActionLink("Edit", "Edit", "Employee", new { id = item.Id, area = "Admin" }) |
+                            @*@Html.ActionLink("Details", "GetDetails", new { id = item.Id, area = "Admin" }) |*@
+                            @Html.ActionLink("Details", "GetDetails", new { id = item.Id }) |
+                            @Html.ActionLink("Delete", "Delete", new { id = item.Id, area = "Admin" })
+                        </td>
+                    }
                 </tr>
             }
         </tbody>
