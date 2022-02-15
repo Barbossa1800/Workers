@@ -2,12 +2,16 @@
 using Microsoft.EntityFrameworkCore;
 using System.Linq;
 using System.Threading.Tasks;
+using Extensions.Password;
+using Microsoft.AspNetCore.Authorization;
 using Workers.Web.Infrastructure.Context;
 using Workers.Web.Infrastructure.Models;
 
 namespace Workers.Web.Areas.Admin.Controllers
 {
-    [Route("project-employee")]
+    [Area("Admin")]
+    [Route("admin/project-employee")]
+    [Authorize(Roles = "Admin")]
     public class ProjectEmployeeController : Controller
     {
         private readonly WorkerDbContext _db;

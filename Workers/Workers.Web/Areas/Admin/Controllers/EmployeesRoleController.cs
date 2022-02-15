@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Threading.Tasks;
 using Workers.Web.Infrastructure.Context;
@@ -6,7 +7,9 @@ using Workers.Web.Infrastructure.Models;
 
 namespace Workers.Web.Controllers
 {
-    [Route("employee-role")]
+    [Area("Admin")]
+    [Route("admin/employee-role")]
+    [Authorize(Roles = "Admin")]
     public class EmployeesRoleController : Controller
     {
         private readonly WorkerDbContext _db;

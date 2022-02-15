@@ -2,12 +2,13 @@
 
 @{
     ViewData["Title"] = "GetAll";
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 <h1>GetAll</h1>
 
 <p>
-    <a asp-action="Create">Create New</a>
+    <a asp-area="Admin" asp-controller="Position" asp-action="Create">Create New</a>
 </p>
 
 @if (Model.Any())
@@ -28,10 +29,14 @@
                     <td>
                         @Html.DisplayFor(modelItem => item.Name)
                     </td>
-                    <td>
-                        <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                        <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-                    </td>
+                    @if (User.IsInRole("Admin"))
+                    {
+                        <td>
+                            @Html.ActionLink("Edit", "Edit", "Position", new { id = item.Id, area = "Admin" }) |
+                            @Html.ActionLink("Delete", "Delete", "Position", new { id = item.Id, area = "Admin" })
+                        </td>
+                    }
+
                 </tr>
             }
         </tbody>
