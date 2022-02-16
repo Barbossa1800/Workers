@@ -1,7 +1,10 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using Workers.Web.Infrastructure.Context;
 using Workers.Web.Infrastructure.Models;
@@ -19,6 +22,9 @@ namespace Workers.Web.Controllers
             _db = db;
         }
 
+
+       
+
         [HttpGet("all")]
         public async Task<IActionResult> GetAll()
         {
@@ -26,6 +32,8 @@ namespace Workers.Web.Controllers
                 .Include(x => x.Role)
                 .Include(x => x.Employee) // почему тут employees, а в projectEmployee -> employee???
                 .ToListAsync();
+
+
             return View(employeeRole);
         }
 
@@ -64,9 +72,9 @@ namespace Workers.Web.Controllers
         }
 
         [HttpPost("edit")]
-        public async Task<IActionResult> EditEmployeesRole(EmployeeRole employeeRole) // сделать, что бы сразу пропадали права админа
-            // перезагрузить как то страницу или разлогинить?
+        public async Task<IActionResult> EditEmployeesRole(EmployeeRole employeeRole)
         {
+
             var employeeRoleFromDb = await _db.EmployeeRoles
                 .Include(x => x.Employee)
                 .Include(x => x.Role)
@@ -81,6 +89,21 @@ namespace Workers.Web.Controllers
 
             _db.EmployeeRoles.Update(employeeRoleFromDb);
             await _db.SaveChangesAsync();
+
+            var currentUserEmail = HttpContext.User.Identity.Name;
+
+            var user = await _db.Employees.FirstOrDefaultAsync(x =>x.Email == employeeRoleFromDb.Employee.Email);
+
+           // var other = new AccountController();
+            
+            if (currentUserEmail == user.Email)
+            {
+                // return LocalRedirect("~/account/login"); //вызвать метод loggout или тупо выкинуть (как то надо логаут. DRY!!!)
+                // await other.Logout();
+                await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+
+                return LocalRedirect("~/account/login");
+            }
 
             return LocalRedirect("~/admin/employee-role/all");
         }
