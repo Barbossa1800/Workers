@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Linq;
 using System.Threading.Tasks;
 using Workers.Web.Infrastructure.Context;
 using Workers.Web.Infrastructure.Models;
@@ -21,23 +22,67 @@ namespace Workers.Web.Controllers
         [HttpGet("all")]
         public async Task<IActionResult> GetAll()
         {
-            var employeeRole = await _db.EmployeeRoles.ToListAsync();
-            return View();
+            var employeeRole = await _db.EmployeeRoles
+                .Include(x => x.Role)
+                .Include(x => x.Employee) // почему тут employees, а в projectEmployee -> employee???
+                .ToListAsync();
+            return View(employeeRole);
         }
 
         [HttpGet("create")]
-        public IActionResult Create()
+        public async Task<IActionResult> Create()
         {
+            ViewBag.Employees = await _db.Employees.Select(x => new Employee
+            {
+                Id = x.Id,
+                Email = x.Email
+            }).ToListAsync();
+            ViewBag.Roles = await _db.Roles.Select(x => new Role
+            {
+                Id = x.Id,
+                Name = x.Name
+            }).ToListAsync();
             return View();
         }
 
-        [HttpPost("create")]
-        public async Task<IActionResult> Create(EmployeeRole employeeRole)
+        [HttpGet("edit/{id}")]
+        public async Task<IActionResult> Edit(int id)
         {
-            await _db.EmployeeRoles.AddAsync(employeeRole);
-            await _db.SaveChangesAsync();
-            return LocalRedirect("~/employee-role/all");
+            var employeeRole = await _db.EmployeeRoles.Include(x => x.Employee).Include(x =>x.Role).SingleOrDefaultAsync(x => x.Id == id);
+            if (employeeRole == null)
+            {
+                return LocalRedirect("~/admin/employee-role/all");
+            }
+
+            var employees = await _db.Employees.ToListAsync();
+            var roles = await _db.Roles.ToListAsync();
+
+            ViewBag.Employees = employees;
+            ViewBag.Roles = roles;
+
+            return View(employeeRole);
         }
 
+        [HttpPost("edit")]
+        public async Task<IActionResult> EditEmployeesRole(EmployeeRole employeeRole) // сделать, что бы сразу пропадали права админа
+            // перезагрузить как то страницу или разлогинить?
+        {
+            var employeeRoleFromDb = await _db.EmployeeRoles
+                .Include(x => x.Employee)
+                .Include(x => x.Role)
+                .SingleOrDefaultAsync(x => x.Id == employeeRole.Id);
+            if (employeeRole == null)
+            {
+                return LocalRedirect("~/admin/employee-role/all");
+            }
+
+            employeeRoleFromDb.EmployeeId = employeeRole.EmployeeId;
+            employeeRoleFromDb.RoleId = employeeRole.RoleId;
+
+            _db.EmployeeRoles.Update(employeeRoleFromDb);
+            await _db.SaveChangesAsync();
+
+            return LocalRedirect("~/admin/employee-role/all");
+        }
     }
 }
