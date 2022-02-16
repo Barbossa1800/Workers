@@ -15,20 +15,20 @@ namespace Workers.Web.Infrastructure
         {
             if (!db.Roles.Any())
             {
-                var role1 = new Role
+                var roleAdmin = new Role
                 {
                     Name = CustomRole.Admin
                 };
-                var role2 = new Role
+                var roleManager = new Role
                 {
                     Name = CustomRole.Manager
                 };
-                var role3 = new Role
+                var roleEmployee = new Role
                 {
                     Name = CustomRole.Employee
                 };
 
-                db.Roles.AddRange(role1, role2, role3);
+                db.Roles.AddRange(roleAdmin, roleManager, roleEmployee);
                 db.SaveChanges();
             }
 

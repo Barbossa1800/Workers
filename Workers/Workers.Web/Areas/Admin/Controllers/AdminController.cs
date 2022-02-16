@@ -9,9 +9,9 @@ using Workers.Web.Infrastructure.Context;
 
 namespace Workers.Web.Areas.Admin
 {
-    //[Authorize(Roles = "admin")]
     [Area("Admin")]
     [Route("admin")]
+    [Authorize(Roles = "Admin")]
     public class AdminController : Controller
     {
         //ещё список всех пользоватлей, и круд с ними
@@ -23,7 +23,6 @@ namespace Workers.Web.Areas.Admin
         }
 
         [HttpGet("all")]
-        //[Authorize(Policy = "ForEmail")]
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> GetAll()
         {
