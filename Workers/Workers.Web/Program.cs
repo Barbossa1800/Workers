@@ -6,6 +6,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Workers.Web.Infrastructure;
+using Workers.Web.Infrastructure.Context;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace Workers.Web
 {
@@ -13,7 +16,15 @@ namespace Workers.Web
     {
         public static void Main(string[] args)
         {
-            CreateHostBuilder(args).Build().Run();
+            //CreateHostBuilder(args).Build().Run();
+            var host = CreateHostBuilder(args).Build();
+            using (var scope = host.Services.CreateScope())
+            {
+                //var services = scope.ServiceProvider;
+                var context = scope.ServiceProvider.GetRequiredService<WorkerDbContext>();
+                DataSeeder.SeedSystem(context);
+            }
+            host.Run();
         }
 
         public static IHostBuilder CreateHostBuilder(string[] args) =>

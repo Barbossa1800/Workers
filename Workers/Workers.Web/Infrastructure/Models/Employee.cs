@@ -12,7 +12,7 @@ namespace Workers.Web.Infrastructure.Models
         public string LastName { get; set; }
         [NotMapped]
         public string FullName => $"{LastName} {FirstName}";
-        public string Login { get; set; }
+        //public string Login { get; set; }
         [Required]
         public string Email { get; set; }
         [Required]
