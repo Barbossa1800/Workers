@@ -2,12 +2,13 @@
 
 @{
     ViewData["Title"] = "GetAll";
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 <h1>GetAll</h1>
 
 <p>
-    <a asp-action="Create">Create New</a>
+    <a asp-area="Admin" asp-controller="TaskStatus" asp-action="Create">Create New</a>
 </p>
 @if (Model.Any())
 {
@@ -45,11 +46,14 @@
                     <td>
                         @Html.DisplayFor(modelItem => item.Employee.FullName)
                     </td>
-                    <td>
-                        <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                        <a asp-action="GetDetails" asp-route-id="@item.Id">Details</a> |
-                        <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-                    </td>
+                    @if (User.IsInRole("Admin"))
+                    {
+                        <td>
+                            @Html.ActionLink("Edit", "Edit", "TaskStatus", new { id = item.Id, area = "Admin" }) |
+                            @Html.ActionLink("Delete", "Delete", "TaskStatus", new { id = item.Id, area = "Admin" }) |
+                            @Html.ActionLink("GetDetails", "GetDetails", "TaskStatus", new { id = item.Id })
+                        </td>
+                    }
                 </tr>
             }
         </tbody>
@@ -57,5 +61,5 @@
 }
 else
 {
-    <p>No task status!</p>
+    <h2>No task status!</h2>
 }

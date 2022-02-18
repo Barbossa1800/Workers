@@ -1,13 +1,14 @@
 ﻿@model IEnumerable<Workers.Web.Infrastructure.Models.Task>
 
 @{
+    Layout = "~/Views/Shared/_Layout.cshtml";
     ViewData["Title"] = "GetAll";
 }
 
 <h1>GetAll</h1>
 
 <p>
-    <a asp-action="Create">Create New</a>
+    <a asp-area="Admin" asp-controller="Task" asp-action="Create">Create New</a>
 </p>
 @if (Model.Any())
 {
@@ -37,7 +38,7 @@
             {
                 <tr>
                     <td>
-                        @Html.DisplayFor(modelItem => item.Id)
+                        @Html.DisplayFor(modelItem => item.DeadLine)
                     </td>
                     <td>
                         @Html.DisplayFor(modelItem => item.Name)
@@ -51,11 +52,14 @@
                     <td>
                         @Html.DisplayFor(modelItem => item.Project.Name)
                     </td>
-                    <td>
-                        <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                        <a asp-action="GetDetails" asp-route-id="@item.Id">Details</a> |
-                        <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-                    </td>
+                    @if (User.IsInRole("Admin"))
+                    {
+                        <td>
+                            @Html.ActionLink("Edit", "Edit", "Task", new { id = item.Id, area = "Admin" }) |
+                            @Html.ActionLink("Details", "GetDetails", "Task", new { id = item.Id, area = "Admin" }) |
+                            @Html.ActionLink("Delete", "Delete", "Task", new { id = item.Id, area = "Admin" })
+                        </td>
+                    }
                 </tr>
             }
         </tbody>

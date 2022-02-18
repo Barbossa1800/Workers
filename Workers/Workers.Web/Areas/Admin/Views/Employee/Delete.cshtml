@@ -23,12 +23,12 @@
         <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.LastName)
         </dd>
-        <dt class = "col-sm-2">
+        @*<dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.Login)
-        </dt>
-        <dd class = "col-sm-10">
+        </dt>*@
+        @*<dd class = "col-sm-10">
             @Html.DisplayFor(model => model.Login)
-        </dd>
+        </dd>*@
         <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.Email)
         </dt>
@@ -40,6 +40,6 @@
     <form asp-action="DeleteEmployee">
         <input type="hidden" asp-for="Id" />
         <input type="submit" value="Delete" class="btn btn-danger" /> |
-        <a asp-action="GetAll">Back to List</a>
+        <a asp-action="GetAll"   asp-controller="Admin">Back to List</a>
     </form>
 </div>

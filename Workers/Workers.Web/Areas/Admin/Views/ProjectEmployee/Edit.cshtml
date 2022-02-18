@@ -2,6 +2,8 @@
 
 @{
     ViewData["Title"] = "Edit";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
 
     List<Workers.Web.Infrastructure.Models.Position> positions = ViewBag.Positions as List<Workers.Web.Infrastructure.Models.Position>;
     List<Workers.Web.Infrastructure.Models.Project> projects = ViewBag.Projects as List<Workers.Web.Infrastructure.Models.Project>;

@@ -12,9 +12,14 @@ namespace Workers.Web.Infrastructure.Models
         public string LastName { get; set; }
         [NotMapped]
         public string FullName => $"{LastName} {FirstName}";
-        public string Login { get; set; }
+        //public string Login { get; set; }
+        [Required]
         public string Email { get; set; }
+        [Required]
+        public string PasswordHash { get; set; }
+
         public List<ProjectEmployee> ProjectEmployees { get; set; }
         public List<TaskStatus> InfoStatuses { get; set; }
+        public List<EmployeeRole> EmployeeRoles { get; set; }
     }
 }

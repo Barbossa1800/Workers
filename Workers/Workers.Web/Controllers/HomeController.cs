@@ -6,6 +6,7 @@ using Workers.Web.Models;
 
 namespace Workers.Web.Controllers
 {
+    //[Route("Home")]
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
@@ -15,6 +16,7 @@ namespace Workers.Web.Controllers
             _logger = logger;
         }
 
+        //[Route("Index")]
         public IActionResult Index()
         {
             return View();

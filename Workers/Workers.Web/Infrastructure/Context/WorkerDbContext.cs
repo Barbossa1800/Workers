@@ -28,10 +28,17 @@ namespace Workers.Web.Infrastructure.Context
 
         public DbSet<Status> Statuses { get; set; }
 
+        /*new DbSet (authorization)*/
+        public DbSet<EmployeeRole> EmployeeRoles { get; set; }
+
+        public DbSet<Role> Roles{ get; set; }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             //modelBuilder.Entity<Position>().Property(x => x.Id).HasColumnName("PositionId");
             //modelBuilder.Entity<>
         }
+
+        //public DbSet<Workers.Web.Infrastructure.Models.EmployeeRegister> EmployeeRegister { get; set; } //зачем?
     }
 }
