@@ -50,13 +50,10 @@
                     {
                         <td>
                             @Html.ActionLink("Edit", "Edit", "Project", new { id = item.Id, area = "Admin" }) |
-                            @Html.ActionLink("Delete", "Delete", "Project", new { id = item.Id, area = "Admin" })
+                            @Html.ActionLink("Delete", "Delete", "Project", new { id = item.Id, area = "Admin" }) |
+                            @Html.ActionLink("Details", "GetDetails", "Project", new { id = item.Id })
                         </td>
                     }
-                    <td>
-                        @Html.ActionLink("Details", "GetDetails", "Project", new { id = item.Id })
-
-                    </td>
                 </tr>
             }
         </tbody>

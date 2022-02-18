@@ -28,10 +28,13 @@
                     <td>
                         @Html.DisplayFor(modelItem => item.Status)
                     </td>
-                    <td>
-                        @Html.ActionLink("Edit", "Edit", "StatusProject", new { id = item.Id, area = "Admin" }) |
-                        @Html.ActionLink("Delete", "Delete", "StatusProject", new { id = item.Id, area = "Admin" }) 
-                    </td>
+                    @if (User.IsInRole("Admin"))
+                    {
+                        <td>
+                            @Html.ActionLink("Edit", "Edit", "StatusProject", new { id = item.Id, area = "Admin" }) |
+                            @Html.ActionLink("Delete", "Delete", "StatusProject", new { id = item.Id, area = "Admin" })
+                        </td>
+                    }
                 </tr>
             }
         </tbody>

@@ -22,15 +22,12 @@ namespace Workers.Web.Controllers
             _db = db;
         }
 
-
-       
-
         [HttpGet("all")]
         public async Task<IActionResult> GetAll()
         {
             var employeeRole = await _db.EmployeeRoles
                 .Include(x => x.Role)
-                .Include(x => x.Employee) // почему тут employees, а в projectEmployee -> employee???
+                .Include(x => x.Employee)
                 .ToListAsync();
 
 
@@ -94,17 +91,11 @@ namespace Workers.Web.Controllers
 
             var user = await _db.Employees.FirstOrDefaultAsync(x =>x.Email == employeeRoleFromDb.Employee.Email);
 
-           // var other = new AccountController();
-            
             if (currentUserEmail == user.Email)
             {
-                // return LocalRedirect("~/account/login"); //вызвать метод loggout или тупо выкинуть (как то надо логаут. DRY!!!)
-                // await other.Logout();
                 await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
-
                 return LocalRedirect("~/account/login");
             }
-
             return LocalRedirect("~/admin/employee-role/all");
         }
     }

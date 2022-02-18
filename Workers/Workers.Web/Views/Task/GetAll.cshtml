@@ -38,7 +38,7 @@
             {
                 <tr>
                     <td>
-                        @Html.DisplayFor(modelItem => item.Id)
+                        @Html.DisplayFor(modelItem => item.DeadLine)
                     </td>
                     <td>
                         @Html.DisplayFor(modelItem => item.Name)
@@ -52,11 +52,14 @@
                     <td>
                         @Html.DisplayFor(modelItem => item.Project.Name)
                     </td>
-                    <td>
-                        @Html.ActionLink("Edit", "Edit", "Task", new { id = item.Id, area = "Admin" }) |
-                        @Html.ActionLink("Details", "GetDetails", "Task", new { id = item.Id, area = "Admin" }) |
-                        @Html.ActionLink("Delete", "Delete", "Task", new { id = item.Id, area = "Admin" })
-                    </td>
+                    @if (User.IsInRole("Admin"))
+                    {
+                        <td>
+                            @Html.ActionLink("Edit", "Edit", "Task", new { id = item.Id, area = "Admin" }) |
+                            @Html.ActionLink("Details", "GetDetails", "Task", new { id = item.Id, area = "Admin" }) |
+                            @Html.ActionLink("Delete", "Delete", "Task", new { id = item.Id, area = "Admin" })
+                        </td>
+                    }
                 </tr>
             }
         </tbody>

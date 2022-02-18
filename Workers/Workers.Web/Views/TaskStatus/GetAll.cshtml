@@ -33,28 +33,28 @@
         <tbody>
             @foreach (var item in Model)
             {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.StatusTask.StatusName)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Task.Name)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.DateEdit)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Employee.FullName)
-                </td>
-                @if (User.IsInRole("Admin"))
-                {
+                <tr>
                     <td>
-                        @Html.ActionLink("Edit", "Edit", "TaskStatus", new { id = item.Id, area = "Admin" }) |
-                        @Html.ActionLink("Delete", "Delete", "TaskStatus", new { id = item.Id, area = "Admin" })
+                        @Html.DisplayFor(modelItem => item.StatusTask.StatusName)
                     </td>
-                }
-                @Html.ActionLink("GetDetails", "GetDetails", "TaskStatus", new { id = item.Id })
-            </tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Task.Name)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.DateEdit)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Employee.FullName)
+                    </td>
+                    @if (User.IsInRole("Admin"))
+                    {
+                        <td>
+                            @Html.ActionLink("Edit", "Edit", "TaskStatus", new { id = item.Id, area = "Admin" }) |
+                            @Html.ActionLink("Delete", "Delete", "TaskStatus", new { id = item.Id, area = "Admin" }) |
+                            @Html.ActionLink("GetDetails", "GetDetails", "TaskStatus", new { id = item.Id })
+                        </td>
+                    }
+                </tr>
             }
         </tbody>
     </table>
