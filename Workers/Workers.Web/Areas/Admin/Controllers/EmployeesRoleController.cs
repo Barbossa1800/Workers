@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
@@ -53,7 +54,7 @@ namespace Workers.Web.Controllers
         [HttpGet("edit/{id}")]
         public async Task<IActionResult> Edit(int id)
         {
-            var employeeRole = await _db.EmployeeRoles.Include(x => x.Employee).Include(x =>x.Role).SingleOrDefaultAsync(x => x.Id == id);
+            var employeeRole = await _db.EmployeeRoles.Include(x => x.Employee).Include(x => x.Role).SingleOrDefaultAsync(x => x.Id == id);
             if (employeeRole == null)
             {
                 return LocalRedirect("~/admin/employee-role/all");
@@ -69,29 +70,25 @@ namespace Workers.Web.Controllers
         }
 
         [HttpPost("edit")]
-        public async Task<IActionResult> EditEmployeesRole(EmployeeRole employeeRole)
+        public async Task<IActionResult> EditEmployeesRole(EmployeeRole employeeRoleToUpdate)
         {
-
-            var employeeRoleFromDb = await _db.EmployeeRoles
+            var currentEmployeeRole = await _db.EmployeeRoles
                 .Include(x => x.Employee)
                 .Include(x => x.Role)
-                .SingleOrDefaultAsync(x => x.Id == employeeRole.Id);
-            if (employeeRole == null)
+                .SingleOrDefaultAsync(x => x.Id == employeeRoleToUpdate.Id);
+
+            if (currentEmployeeRole == null)
             {
                 return LocalRedirect("~/admin/employee-role/all");
             }
 
-            employeeRoleFromDb.EmployeeId = employeeRole.EmployeeId;
-            employeeRoleFromDb.RoleId = employeeRole.RoleId;
+            currentEmployeeRole.EmployeeId = employeeRoleToUpdate.EmployeeId;
+            currentEmployeeRole.RoleId = employeeRoleToUpdate.RoleId;
 
-            _db.EmployeeRoles.Update(employeeRoleFromDb);
+            _db.EmployeeRoles.Update(currentEmployeeRole);
             await _db.SaveChangesAsync();
 
-            var currentUserEmail = HttpContext.User.Identity.Name;
-
-            var user = await _db.Employees.FirstOrDefaultAsync(x =>x.Email == employeeRoleFromDb.Employee.Email);
-
-            if (currentUserEmail == user.Email)
+            if (Convert.ToInt32(HttpContext.User.Claims.First(s => s.Type == "Id").Value) == currentEmployeeRole.Employee.Id)
             {
                 await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
                 return LocalRedirect("~/account/login");
