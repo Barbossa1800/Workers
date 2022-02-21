@@ -112,6 +112,7 @@ namespace Workers.Web.Controllers
             var userRole = await _db.EmployeeRoles.AsNoTracking().Include(x => x.Role).FirstOrDefaultAsync(s => s.EmployeeId == employee.Id);
             var claims = new List<System.Security.Claims.Claim>
             {
+                new System.Security.Claims.Claim("Id", employee.Id.ToString()),
                 new System.Security.Claims.Claim(ClaimsIdentity.DefaultNameClaimType, employee.Email), //зачем этот клеим? базовый для аутентификации??
                 //new System.Security.Claims.Claim(ClaimTypes.Email, employee.Email),
                 new System.Security.Claims.Claim(ClaimsIdentity.DefaultRoleClaimType, userRole.Role.Name) //связь на роль нужна...
