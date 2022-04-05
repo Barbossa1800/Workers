@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
-namespace Workers.Web.Infrastructure.Models
+namespace Workers.Domain.Models
 {
     public class Role
     {

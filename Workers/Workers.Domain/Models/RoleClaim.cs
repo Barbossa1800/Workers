@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Workers.Web.Infrastructure.Models
+namespace Workers.Domain.Models
 {
     public class RoleClaim
     {

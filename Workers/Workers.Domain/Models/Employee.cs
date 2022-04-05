@@ -2,7 +2,7 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace Workers.Web.Infrastructure.Models
+namespace Workers.Domain.Models
 {
     public class Employee
     {

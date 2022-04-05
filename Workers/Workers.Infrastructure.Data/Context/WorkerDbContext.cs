@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Workers.Web.Infrastructure.Models;
+using Workers.Domain.Models;
 
-namespace Workers.Web.Infrastructure.Context
+namespace Workers.Infrastructure.Data.Context
 {
     public class WorkerDbContext : DbContext
     {
