@@ -1,35 +1,32 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Threading.Tasks;
-using Workers.Web.Infrastructure.Context;
-using Workers.Web.Infrastructure.Models;
 using Extensions.Password;
+using Workers.Application.Services.Interfaces;
 
 namespace Workers.Web.Controllers
 {
     [Route("employee")]
     public class EmployeeController : Controller
     {
-        private readonly WorkerDbContext _db;
-        public EmployeeController(WorkerDbContext db)
+        private readonly IEmployeeService _employeeService;
+        public EmployeeController(IEmployeeService employeeService)
         {
-            _db = db;
+            _employeeService = employeeService;
         }
-
+        #region StableWorks_Example
         [HttpGet("all")]
-        public async Task<IActionResult> GetAll()
+        public async Task<IActionResult> GetAll() //rename -> GetAllEmployees mb + "Async"
         {
-            var employees = await _db.Employees.ToListAsync();
-            return View(employees);
+
+            return View(await _employeeService.GetAll());
         }
 
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetDetails(int id)
+        public async Task<IActionResult> GetDetails(int id) //rename -> GetEmployeeById mb + "Async"
         {
-            var employee = await _db.Employees.AsNoTracking().SingleOrDefaultAsync(x => x.Id == id);
-            if (employee == null)
-                return LocalRedirect("~/employee/all");
-            return View(employee);
+            return View(await _employeeService.GetDetails(id));
         }
+        #endregion
     }
 }
