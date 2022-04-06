@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System.Diagnostics;
-using Workers.Web.Models;
+using Workers.Domain.Models;
 
 namespace Workers.Web.Controllers
 {

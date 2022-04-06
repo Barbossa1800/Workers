@@ -1,13 +1,11 @@
 ﻿using Microsoft.AspNetCore.Authentication.Cookies;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
-using System.Security.Claims;
-using Workers.Web.Infrastructure.Context;
+using Workers.Application.Services.Implementations;
+using Workers.Application.Services.Interfaces;
+using Workers.Infrastructure.Data.Context;
 
 namespace Workers.Web
 {
@@ -46,6 +44,9 @@ namespace Workers.Web
             });
 
             services.AddControllersWithViews();
+            #region Need_IoC
+            services.AddScoped<IEmployeeService, EmployeeService>(); //будте награмождение сервисов, нужно делать IoC контейнер
+            #endregion
         }
 
         public void Configure(IApplicationBuilder app)

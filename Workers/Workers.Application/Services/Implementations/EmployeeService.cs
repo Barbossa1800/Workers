@@ -9,7 +9,7 @@ using Extensions.Password;
 namespace Workers.Application.Services.Implementations
 {
 
-    class EmployeeService : IEmployeeService
+    public class EmployeeService : IEmployeeService
     {
         private readonly WorkerDbContext _db;
         public EmployeeService(WorkerDbContext db)

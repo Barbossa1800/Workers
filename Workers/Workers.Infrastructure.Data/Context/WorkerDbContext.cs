@@ -11,6 +11,10 @@ namespace Workers.Infrastructure.Data.Context
             Database.EnsureCreated();
 #endif
         }
+        public WorkerDbContext()
+        {
+                
+        }
 
         public DbSet<Employee> Employees { get; set; }
 
