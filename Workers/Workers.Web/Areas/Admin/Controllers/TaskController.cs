@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Threading.Tasks;
-using Workers.Web.Infrastructure.Context;
+using Workers.Infrastructure.Data.Context;
 
 namespace Workers.Web.Areas.Admin.Controllers
 {
@@ -27,7 +27,7 @@ namespace Workers.Web.Areas.Admin.Controllers
         }
 
         [HttpPost("create")]
-        public async Task<IActionResult> Create(Infrastructure.Models.Task task)
+        public async Task<IActionResult> Create(Domain.Models.Task task)
         {
             await _db.Tasks.AddAsync(task);
             await _db.SaveChangesAsync();
@@ -51,7 +51,7 @@ namespace Workers.Web.Areas.Admin.Controllers
         }
 
         [HttpPost("edit")]
-        public async Task<IActionResult> EditTask(Infrastructure.Models.Task task)
+        public async Task<IActionResult> EditTask(Domain.Models.Task task)
         {
             var taskFromDb = await _db.Tasks.Include(x => x.Project).Include(x => x.TaskStatuses).SingleOrDefaultAsync(x => x.Id == task.Id);
             if (task == null)
@@ -82,7 +82,7 @@ namespace Workers.Web.Areas.Admin.Controllers
         }
 
         [HttpPost("delete")]
-        public async Task<IActionResult> DeleteTask(Infrastructure.Models.Task task)
+        public async Task<IActionResult> DeleteTask(Domain.Models.Task task)
         {
             var taskFromDb = await _db.Tasks
                 .Include(x => x.Project)

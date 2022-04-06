@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Workers.Web.Infrastructure.Constants;
-using Workers.Web.Infrastructure.Context;
-using Workers.Web.Infrastructure.Models;
 using Extensions.Password;
+using Workers.Infrastructure.Data.Context;
+using Workers.Domain.Models;
 
 namespace Workers.Web.Infrastructure
 {
@@ -126,7 +126,7 @@ namespace Workers.Web.Infrastructure
             if (!db.Tasks.Any())
             {
                 var now = DateTime.Now;
-                var newTask = new Models.Task
+                var newTask = new Domain.Models.Task
                 {
                     DeadLine = new DateTime(now.Year, now.Month, now.Day + 2, now.Hour, now.Minute, now.Second),
                     Name = "Fixing bugs",
@@ -143,7 +143,7 @@ namespace Workers.Web.Infrastructure
             if (!db.TaskStatuses.Any())
             {
                 var now = DateTime.Now;
-                var newTaskStatus = new Models.TaskStatus
+                var newTaskStatus = new Domain.Models.TaskStatus
                 {
                     StatusTaskId = db.Statuses.FirstOrDefault(x => x.Id == 1).Id,
                     DateEdit = new DateTime(now.Year, now.Month, now.Day, now.Hour, now.Minute, now.Second),

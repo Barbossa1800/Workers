@@ -6,8 +6,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Workers.Web.Infrastructure.Context;
-using Workers.Web.Infrastructure.Models;
+using Workers.Domain.Models;
+using Workers.Infrastructure.Data.Context;
 
 namespace Workers.Web.Areas.Admin.Controllers
 {
@@ -36,7 +36,7 @@ namespace Workers.Web.Areas.Admin.Controllers
                 Id = x.Id,
                 StatusName = x.StatusName
             }).ToListAsync(), "Id", "StatusName");
-            ViewBag.Tasks = new SelectList(await _db.Tasks.Select(x => new Infrastructure.Models.Task
+            ViewBag.Tasks = new SelectList(await _db.Tasks.Select(x => new Domain.Models.Task
             {
                 Id = x.Id,
                 Name = x.Name
@@ -45,7 +45,7 @@ namespace Workers.Web.Areas.Admin.Controllers
         }
 
         [HttpPost("create")]
-        public async Task<IActionResult> Create(Infrastructure.Models.TaskStatus taskStatus)
+        public async Task<IActionResult> Create(Domain.Models.TaskStatus taskStatus)
         {
             await _db.TaskStatuses.AddAsync(taskStatus);
             await _db.SaveChangesAsync();
@@ -79,7 +79,7 @@ namespace Workers.Web.Areas.Admin.Controllers
                 FirstName = x.FirstName,
                 LastName = x.LastName
             }).ToListAsync(), "Id", "FullName");
-            var tasks = new SelectList(await _db.Tasks.Select(x => new Infrastructure.Models.Task
+            var tasks = new SelectList(await _db.Tasks.Select(x => new Domain.Models.Task
             {
                 Id = x.Id,
                 Name = x.Name
@@ -93,7 +93,7 @@ namespace Workers.Web.Areas.Admin.Controllers
         }
 
         [HttpPost("edit")]
-        public async Task<IActionResult> EditTaskStatus(Infrastructure.Models.TaskStatus taskStatus)
+        public async Task<IActionResult> EditTaskStatus(Domain.Models.TaskStatus taskStatus)
         {
             var taskStatusFromDb = await _db.TaskStatuses
                .Include(x => x.Employee)
@@ -134,7 +134,7 @@ namespace Workers.Web.Areas.Admin.Controllers
         }
 
         [HttpPost("delete")]
-        public async Task<IActionResult> DeleteTaskStatus(Infrastructure.Models.TaskStatus taskStatus)
+        public async Task<IActionResult> DeleteTaskStatus(Domain.Models.TaskStatus taskStatus)
         {
             var taskStatusForDelete = await _db.TaskStatuses
                 .Include(x => x.Employee)

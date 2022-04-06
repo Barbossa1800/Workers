@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Threading.Tasks;
-using Workers.Web.Infrastructure.Context;
+using Workers.Infrastructure.Data.Context;
 
 namespace Workers.Web.Controllers
 {

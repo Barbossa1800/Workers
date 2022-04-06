@@ -2,14 +2,14 @@
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Workers.Web.Infrastructure.Context;
-using Workers.Web.Infrastructure.Models;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Extensions.Password;
 using Workers.Web.Infrastructure.Constants;
 using System.Linq;
+using Workers.Infrastructure.Data.Context;
+using Workers.Domain.Models;
 
 namespace Workers.Web.Controllers
 {

@@ -5,8 +5,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Workers.Web.Infrastructure.Context;
-using Workers.Web.Infrastructure.Models;
+using Workers.Domain.Models;
+using Workers.Infrastructure.Data.Context;
 
 namespace Workers.Web.Areas.Admin.Controllers
 {

@@ -7,6 +7,8 @@ using System;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using Workers.Domain.Models;
+using Workers.Infrastructure.Data.Context;
 
 namespace Workers.Web.Controllers
 {

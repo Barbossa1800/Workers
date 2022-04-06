@@ -13,7 +13,13 @@ namespace Workers.Application.Services.Interfaces
         Task<List<Employee>> GetAll(); 
         Task<Employee> GetDetails(int id);
         #endregion
-        Employee Create();
+
+        //admin method
+        Employee Create(); //attention!
         Task<Employee> Create(Employee employee);
+        Task<Employee> Edit(int id);
+        Task<Employee> EditEmployee(Employee employee);
+        Task<Employee> Delete(int id);
+        Task<Employee> DeleteEmployee(Employee employee);
     }
 }

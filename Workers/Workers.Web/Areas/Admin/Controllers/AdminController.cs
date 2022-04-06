@@ -1,11 +1,8 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
-using Workers.Web.Infrastructure.Context;
+using Workers.Infrastructure.Data.Context;
 
 namespace Workers.Web.Areas.Admin
 {
