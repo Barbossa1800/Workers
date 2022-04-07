@@ -32,7 +32,6 @@ namespace Workers.Infrastructure.Data.Context
 
         public DbSet<Status> Statuses { get; set; }
 
-        /*new DbSet (authorization)*/
         public DbSet<EmployeeRole> EmployeeRoles { get; set; }
 
         public DbSet<Role> Roles{ get; set; }
