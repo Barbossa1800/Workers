@@ -29,8 +29,6 @@ namespace Workers.Web
                     options.AccessDeniedPath = new Microsoft.AspNetCore.Http.PathString("/Account/Login");
                 });
 
-            //services.AddTransient<IAuthorizationHandler, AgeHandler>();
-
             services.AddAuthorization(opts => {
                 //opts.AddPolicy("ForEmail", policy =>
                 //{
@@ -44,8 +42,10 @@ namespace Workers.Web
             });
 
             services.AddControllersWithViews();
-            #region Need_IoC
+
+            #region Services_Need_IoC
             services.AddScoped<IEmployeeService, EmployeeService>(); //будте награмождение сервисов, нужно делать IoC контейнер
+            services.AddScoped<IProjectEmployeeService, ProjectEmployeeService>();
             #endregion
         }
 

@@ -16,6 +16,7 @@ namespace Workers.Application.Services.Implementations
         {
             _db = db;
         }
+
         #region StableWorks_Example
         public async Task<List<Employee>> GetAll()
         {

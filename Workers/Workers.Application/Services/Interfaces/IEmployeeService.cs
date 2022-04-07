@@ -7,7 +7,7 @@ namespace Workers.Application.Services.Interfaces
     public interface IEmployeeService
     {
         #region StableWorks_Example
-        Task<List<Employee>> GetAll(); 
+        Task<List<Employee>> GetAll();  // change name -> GetAllEmployeeAsync (норм или нет?)
         Task<Employee> GetDetails(int id);
         #endregion
 
