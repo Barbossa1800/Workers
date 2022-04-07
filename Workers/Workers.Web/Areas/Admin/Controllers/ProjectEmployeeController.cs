@@ -2,10 +2,10 @@
 using Microsoft.EntityFrameworkCore;
 using System.Linq;
 using System.Threading.Tasks;
-using Extensions.Password;
 using Microsoft.AspNetCore.Authorization;
 using Workers.Infrastructure.Data.Context;
 using Workers.Domain.Models;
+using Workers.Application.Services.Interfaces;
 
 namespace Workers.Web.Areas.Admin.Controllers
 {
@@ -14,14 +14,16 @@ namespace Workers.Web.Areas.Admin.Controllers
     [Authorize(Roles = "Admin")]
     public class ProjectEmployeeController : Controller
     {
+        private readonly IProjectEmployeeService _projectEmployeeService;
         private readonly WorkerDbContext _db;
-        public ProjectEmployeeController(WorkerDbContext db)
+        public ProjectEmployeeController(IProjectEmployeeService projectEmployeeService, WorkerDbContext db) //КОСТЫЛЬ (для метода Create [Get] 
         {
+            _projectEmployeeService = projectEmployeeService;
             _db = db;
         }
 
         [HttpGet("create")]
-        public async Task<IActionResult> Create()
+        public async Task<IActionResult> Create() // I don't understand how to take this method to Services
         {
             ViewBag.Projects = await _db.Projects.Select(x => new Project
             {
@@ -41,10 +43,10 @@ namespace Workers.Web.Areas.Admin.Controllers
         [HttpPost("create")]
         public async Task<IActionResult> Create(ProjectEmployee projectEmployee)
         {
-            await _db.ProjectEmployees.AddAsync(projectEmployee);
-            await _db.SaveChangesAsync();
+            await _projectEmployeeService.Create(projectEmployee);
             return LocalRedirect("~/project-employee/all");
         }
+
         [HttpGet("edit/{id}")]
         public async Task<IActionResult> Edit(int id)
         {
@@ -59,7 +61,7 @@ namespace Workers.Web.Areas.Admin.Controllers
             ViewBag.Positions = positions;
 
             return View(pe);
-        }
+        } // I don't understand how to take this method to Services
 
         [HttpPost("edit")] //for create project emp likely this
         public async Task<IActionResult> EditProjEmp(ProjectEmployee projectEmployee)
@@ -75,30 +77,18 @@ namespace Workers.Web.Areas.Admin.Controllers
             await _db.SaveChangesAsync();
 
             return LocalRedirect(Url.Action("GetDetails", "ProjectEmployee", new { id = peFromDb.Id }));
-        }
+        } // I don't understand how to take this method to Services
 
         [HttpGet("delete/{id}")]
         public async Task<IActionResult> Delete(int id)
         {
-            var projectEmployeeFromDb = await _db.ProjectEmployees
-                .Include(x => x.Employee)
-                .Include(x => x.Project)
-                .Include(x => x.Position)
-                .SingleOrDefaultAsync(x => x.Id == id);
-            if (projectEmployeeFromDb is null)
-                return LocalRedirect(Url.Action("GetAll", "ProjectEmployee"));
-            return View(projectEmployeeFromDb);
-
+            return View(await _projectEmployeeService.Delete(id));
         }
 
         [HttpPost("delete")]
         public async Task<IActionResult> DeleteConfirmed(ProjectEmployee projectEmployee)
         {
-            var employeeFromDelete = await _db.ProjectEmployees.SingleOrDefaultAsync(x => x.Id == projectEmployee.Id);
-            if (employeeFromDelete is null)
-                return LocalRedirect(Url.Action("GetAll", "ProjectEmployee"));
-            _db.Remove(employeeFromDelete);
-            _db.SaveChanges();
+            await _projectEmployeeService.DeleteConfirmed(projectEmployee);
             return LocalRedirect("~/project-employee/all");
         }
     }

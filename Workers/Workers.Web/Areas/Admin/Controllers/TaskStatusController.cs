@@ -16,7 +16,7 @@ namespace Workers.Web.Areas.Admin.Controllers
     [Authorize(Roles = "Admin")]
     public class TaskStatusController : Controller
     {
-        readonly WorkerDbContext _db;
+        private readonly readonly WorkerDbContext _db;
         public TaskStatusController(WorkerDbContext db)
         {
             _db = db;

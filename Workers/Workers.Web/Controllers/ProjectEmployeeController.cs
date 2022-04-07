@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Threading.Tasks;
+using Workers.Application.Services.Interfaces;
 using Workers.Infrastructure.Data.Context;
 
 namespace Workers.Web.Controllers
@@ -8,39 +9,23 @@ namespace Workers.Web.Controllers
     [Route("project-employee")]
     public class ProjectEmployeeController : Controller
     {
-        private readonly WorkerDbContext _db;
-        public ProjectEmployeeController(WorkerDbContext db)
+        private readonly IProjectEmployeeService _projectEmployeeService;
+        public ProjectEmployeeController(IProjectEmployeeService projectEmployeeService)
         {
-            _db = db;
+            _projectEmployeeService = projectEmployeeService;
         }
 
         [HttpGet("all")]
         [Route("all")] //second variant of route
         public async Task<IActionResult> GetAll()
         {
-            var projectemployee = await _db.ProjectEmployees
-                .Include(x => x.Employee)
-                .Include(x => x.Project)
-                .Include(x => x.Position)
-                .ToListAsync();
-            return View(projectemployee);
+            return View(await _projectEmployeeService.GetAll());
         }
 
         [HttpGet("{id}")]
         public async Task<IActionResult> GetDetails(int id)
         {
-            var pe = await _db.ProjectEmployees
-                .Include(x => x.Employee)
-                .Include(x => x.Project) 
-                .Include(x => x.Position)
-                .SingleOrDefaultAsync(x => x.Id == id);
-            if(pe == null)
-            {
-                return LocalRedirect("~/project-employee/all");
-            }
-            return View(pe);
+            return View(await _projectEmployeeService.GetDetails(id));
         }
-
-       
     }
 }

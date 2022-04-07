@@ -8,7 +8,7 @@ namespace Workers.Web.Controllers
     [Route("position")]
     public class PositionController : Controller
     {
-        WorkerDbContext _db;
+        private readonly WorkerDbContext _db;
         public PositionController(WorkerDbContext db)
         {
             _db = db;

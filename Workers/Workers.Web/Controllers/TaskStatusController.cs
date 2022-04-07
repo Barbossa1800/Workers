@@ -8,7 +8,7 @@ namespace Workers.Web.Controllers
     [Route("task-status")]
     public class TaskStatusController : Controller
     {
-        readonly WorkerDbContext _db;
+        private readonly WorkerDbContext _db;
         public TaskStatusController(WorkerDbContext db)
         {
             _db = db;

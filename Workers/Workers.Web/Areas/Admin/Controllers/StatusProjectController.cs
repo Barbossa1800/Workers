@@ -12,7 +12,7 @@ namespace Workers.Web.Areas.Admin.Controllers
     [Authorize(Roles = "Admin")]
     public class StatusProjectController : Controller
     {
-        WorkerDbContext _db;
+        private readonly WorkerDbContext _db;
         public StatusProjectController(WorkerDbContext db)
         {
             _db = db;

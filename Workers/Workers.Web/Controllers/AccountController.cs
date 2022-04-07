@@ -16,7 +16,7 @@ namespace Workers.Web.Controllers
     [Route("account")]
     public class AccountController : Controller
     {
-        private WorkerDbContext _db;
+        private readonly WorkerDbContext _db;
         public AccountController(WorkerDbContext db)
         {
             _db = db;

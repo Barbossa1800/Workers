@@ -8,7 +8,7 @@ namespace Workers.Web.Controllers
     [Route("status-project")]
     public class StatusProjectController : Controller
     {
-        WorkerDbContext _db;
+        private readonly WorkerDbContext _db;
         public StatusProjectController(WorkerDbContext db)
         {
             _db = db;
